@@ -1,0 +1,58 @@
+<div class="container fliud">
+
+    <div class="container mt-2">
+    
+        <img [src]="loading" *ngIf="show_load" class="loading">
+    
+        <mat-paginator showFirstLastButtons [length]="allPersons.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions" (page)="handlePage($event)">
+        </mat-paginator>
+    
+        <div class="row" *ngIf="allPersons">
+            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 mb-1" *ngFor="let c of allPersons | customPaginate:page_size:page_number; let p = index" data-toggle="tooltip" title="Click para ver detalles.">
+
+                <!--Card-->
+                <div class="card-group set_height">
+                    <div class="card text-center" data-toggle="modal" [attr.data-target]="'#c_'+p">
+                        <img class="card-img-top" src="{{ c.picture['large'] }}">
+                        <div class="card-body">
+                            <p class="card-title font-weight-bold">
+                                {{ c.name['title'] +" "+ c.name['first'] +" "+ c.name['last'] | titlecase }}
+                            </p>
+                            <p class="card-title">
+                                {{ c.email }}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <p class="text-right">Edad: {{ c.dob['age'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <!--Card-->
+
+                <!--Modal-->
+                <div class="modal fade" [attr.id]="'c_'+p" tabindex="-1" role="dialog" aria-labelledby="eml" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <span class="modal-title" id="eml"></span>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <h1>{{ c.name['title'] +" "+ c.name['first'] +" "+ c.name['last'] | titlecase }}</h1>
+                            </div>
+                            <div class="modal-footer">
+                                <span class="float-right"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal-->
+
+            </div>
+        </div>
+    
+    </div>
+
+</div>
