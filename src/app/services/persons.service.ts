@@ -8,7 +8,7 @@ import { Persons } from '../models/persons/persons';
 })
 export class PersonsService {
 
-  ruta: string = "https://randomuser.me/api/?results=50";
+  ruta: string = "https://randomuser.me/api/?results=48";
 
   constructor(public http: HttpClient) { }
 

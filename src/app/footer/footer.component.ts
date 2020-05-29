@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
+  usuario: User;
 
-  ngOnInit(): void {
+  constructor(private afAuth: AngularFireAuth) { 
+    this.afAuth.user.subscribe((usuario)=>{
+      this.usuario = usuario;
+    });
+  }
+  ngOnInit(){
   }
 
 }

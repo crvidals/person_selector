@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { PersonsService } from '../services/persons.service';
 import { Persons } from '../models/persons/persons';
 import { PageEvent } from '@angular/material/paginator';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
+import { User } from 'firebase';
 
 @Component({
   selector: 'app-verpersonas',
@@ -11,20 +14,24 @@ import { PageEvent } from '@angular/material/paginator';
 
 export class VerpersonasComponent implements OnInit {
 
-  public show_load: boolean;
-  loading: string = "assets/img/dots.gif";
+  public show_load: boolean = true;
   allPersons: Array<Persons> = new Array<Persons>();
+  usuario: User;
 
-  constructor(public PrsIny: PersonsService) {
-    this.show_load = true;
+  constructor(public PrsIny: PersonsService, private afAuth: AngularFireAuth, private router: Router) {
+    this.afAuth.user.subscribe((usuario)=>{
+      this.usuario = usuario;
+      if (!this.usuario) {
+        this.router.navigateByUrl('/login');
+      }
+    });
   }
 
   ngOnInit(){
     this.PrsIny.readPersons().subscribe((artsDesdeApi)=>{
       this.allPersons = artsDesdeApi['results'];
-      console.log(this.allPersons);
+      this.show_load = false;
     });
-    this.show_load = false;
   }
 
   page_size: number = 6;

@@ -1,14 +1,14 @@
-<div class="container fliud">
+<div class="container fluid">
 
-    <div class="container mt-2">
-    
-        <img [src]="loading" *ngIf="show_load" class="loading">
+    <div class="container mt-2" *ngIf="usuario">
+
+        <app-loading *ngIf="show_load"></app-loading>
     
         <mat-paginator showFirstLastButtons [length]="allPersons.length" [pageSize]="page_size" [pageSizeOptions]="pageSizeOptions" (page)="handlePage($event)">
         </mat-paginator>
     
         <div class="row" *ngIf="allPersons">
-            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-12 mb-1" *ngFor="let c of allPersons | customPaginate:page_size:page_number; let p = index" data-toggle="tooltip" title="Click para ver detalles.">
+            <div class="col-lg-2 col-md-3 col-sm-6 col-xs-6 mb-1" *ngFor="let c of allPersons | customPaginate:page_size:page_number; let p = index" data-toggle="tooltip" title="Click para ver detalles.">
 
                 <!--Card-->
                 <div class="card-group set_height">
@@ -55,4 +55,5 @@
     
     </div>
 
+    
 </div>

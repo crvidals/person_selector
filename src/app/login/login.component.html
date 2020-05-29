@@ -1,0 +1,41 @@
+<div class="container">
+
+    <div class="text-center mt-5">
+        <h1 class="text-center">RANDOM USER GENERATOR</h1>
+        <h2 class="text-center">Completa tus datos para ingresar</h2>
+    </div>
+
+    <form [formGroup]="f_login" class="form-group col-md-5 cent">
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" formControlName="email" id="email" placeholder="Ingresa tu email">
+            <div *ngIf="f_login.controls['email'].invalid && f_login.controls['email'].dirty" class="alert alert-danger" role="alert">
+                <span *ngIf="f_login.controls['email'].errors.required">Este campo es requerido</span>
+                <span *ngIf="f_login.controls['email'].errors.email">El campo no es valido</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="pass">Contraseña</label>
+            <input type="password" class="form-control" formControlName="password" id="pass" placeholder="Ingresa tu password">
+            <div *ngIf="f_login.controls['password'].invalid && f_login.controls['password'].dirty" class="alert alert-danger" role="alert">
+                <span *ngIf="f_login.controls['password'].errors.required">Este campo es requerido</span>
+            </div>
+        </div>
+
+        <button type="submit" (click)="login()" [disabled]="!f_login.valid" class="btn btn-primary cent">
+            Ingresar
+        </button>
+
+        <div *ngIf="!datosOk" class="alert alert-warning mt-3" role="alert">
+            {{ error_log }}
+        </div>
+
+    </form>
+
+    <div class="text-center mt-1">
+        <a routerLink="/register">¿No tienes cuenta? crea una aquí.</a>
+    </div>
+
+</div>
