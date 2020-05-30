@@ -1,0 +1,74 @@
+<div class="container fluid">
+
+    <div class="container mt-2" *ngIf="usuario">
+
+        <form [formGroup]="fEdit" class="col-md-12">
+            <div class="form-row">
+                <div class="col-md-12 mb-3 text-center">
+                    <h1>Editar Usuario</h1>
+                    <img src="https://randomuser.me/api/portraits/women/21.jpg" class="rounded">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="nom">Nombre</label>
+                    <input type="text" class="form-control" id="nom" formControlName="nombre">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="fe_nac">Fecha de Nacimiento</label>
+                    <input type="text" class="form-control" id="fe_nac" formControlName="fecha_nac">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="edad">Edad</label>
+                    <select class="form-control" id="edad">
+                        <option *ngFor="let ed of edades" [value]="ed">
+                            {{ ed }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="pais">Pais</label>
+                    <select class="form-control" id="pais">
+                        <option *ngFor="let ps of paises" [value]="ps.name">
+                            {{ ps.name }}, {{ ps.iso }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="reg_est">Región/Estado</label>
+                    <input type="text" class="form-control" id="reg_est" formControlName="reg_est">
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <label for="comuna">Comuna</label>
+                    <input type="text" class="form-control" id="comuna" formControlName="comuna">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4 mb-3">
+                    <label for="direcc">Dirección</label>
+                    <input type="text" class="form-control" id="direcc" formControlName="direccion">
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <label for="cel">Celular</label>
+                    <input type="text" class="form-control" id="cel" formControlName="celular">
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" type="submit">Editar Usuario</button>
+
+        </form>
+    
+    </div>
+
+    
+</div>

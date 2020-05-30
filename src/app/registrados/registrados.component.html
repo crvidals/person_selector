@@ -1,0 +1,51 @@
+<div class="container" *ngIf="personas.length > 0">
+
+    <h1>Personas Registradas</h1>
+    <div class="table-responsive">
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Edad</th>
+                    <th scope="col">Pais</th>
+                    <th scope="col">Direccion</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let p of personas | paginate: { itemsPerPage: 4, currentPage: p }">
+                <tr>
+                    <td>
+                        <img [src]="p.img" class="img_table">
+                    </td>
+                    <td>{{ p.nombre }}</td>
+                    <td>{{ p.edad }}</td>
+                    <td>{{ p.pais }}</td>
+                    <td>{{ p.direccion }}</td>
+                    <td>
+                        <div class="btn-group" role="group" aria-label="Controles de edición">
+                            <button type="button" class="btn btn-secondary" [routerLink]="['/persons/editarpersona/' + p.id]">
+                                <i class="fas fa-user-edit"></i>
+                            </button>
+                            <button type="button" class="btn btn-secondary" (click)="eliminarPersona(p.id)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <pagination-controls class="text-center" (pageChange)="p = $event"
+                maxSize="5"
+                directionLinks="true"
+                autoHide="true"
+                responsive="true"
+                previousLabel="Anterior"
+                nextLabel="Siguiente"
+                screenReaderPaginationLabel="Paginación"
+                screenReaderPageLabel="Página"
+                screenReaderCurrentLabel="Estás en la página">
+        </pagination-controls>
+    </div>
+
+</div>
