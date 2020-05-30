@@ -19,6 +19,7 @@ import { RegisterComponent } from './register/register.component';
 import { AboutComponent } from './about/about.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
+import { countries, regions } from "typed-countries"
 
 @NgModule({
   declarations: [

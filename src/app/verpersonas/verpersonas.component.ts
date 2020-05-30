@@ -5,6 +5,9 @@ import { PageEvent } from '@angular/material/paginator';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { countries, Country } from "typed-countries";
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-verpersonas',
@@ -14,24 +17,87 @@ import { User } from 'firebase';
 
 export class VerpersonasComponent implements OnInit {
 
-  public show_load: boolean = true;
+  fSave: FormGroup;
+  show_load: boolean = true;
   allPersons: Array<Persons> = new Array<Persons>();
   usuario: User;
+  edades = [];
+  paises = countries;
+  person: Array<Persons> = new Array<Persons>();
+  modal: boolean = false;
+  personOk: boolean = false;
 
-  constructor(public PrsIny: PersonsService, private afAuth: AngularFireAuth, private router: Router) {
+  constructor(public cForm: FormBuilder, public PrsIny: PersonsService, private afAuth: AngularFireAuth, private router: Router, private db: AngularFirestore) {
     this.afAuth.user.subscribe((usuario)=>{
       this.usuario = usuario;
       if (!this.usuario) {
         this.router.navigateByUrl('/login');
       }
     });
-  }
-
+  }                                                                                                                                                                              
   ngOnInit(){
     this.PrsIny.readPersons().subscribe((artsDesdeApi)=>{
       this.allPersons = artsDesdeApi['results'];
       this.show_load = false;
     });
+
+    this.fSave = this.cForm.group({
+      img: ['', Validators.required],
+      nombre: ['', Validators.required],
+      fecha_nac: ['', Validators.required],
+      celular: ['', Validators.required],
+      pais: ['', Validators.required],
+      reg_est: ['', Validators.required],
+      comuna: ['', Validators.required],
+      direccion: ['', Validators.required],
+    });
+
+    for (let i = 1; i <= 150; i++) {
+      this.edades.push(i);
+    }
+  }
+
+  abrirModal(c: Array<Persons> = new Array<Persons>()){
+    this.person = c;
+    this.modal = true;
+    this.fSave = this.cForm.group({
+      img: [c['picture']['large'], Validators.required],
+      nombre: [c['name']['title']+" "+c['name']['first']+" "+c['name']['last'], Validators.required],
+      fecha_nac: [c['dob']['date'].slice(0, 10), Validators.required],
+      celular: [c['cell'], Validators.required],
+      reg_est: [c['location']['state'], Validators.required],
+      comuna: [c['location']['city'], Validators.required],
+      direccion: [c['location']['street']['name']+", "+c['location']['street']['number'], Validators.required],
+    });
+  }
+
+  cerrarModal(){
+    this.modal = false;
+  }
+
+  guardarPersona(){
+    let edad = (<HTMLSelectElement>document.getElementById('edad')).value;
+    let pais = (<HTMLSelectElement>document.getElementById('pais')).value;
+    let fields = this.fSave.value;
+    fields.edad = edad;
+    fields.pais = pais;
+
+    this.db.collection('personas').add(fields)
+    .then((user_ok)=>{
+      console.log(user_ok);
+      this.personOk = true;
+      setTimeout(()=>{
+        window.location.reload();
+      }, 1000);
+    })
+    .catch((error)=>{
+      console.log(error);
+    });
+  }
+
+  buscarPais(pais: string){
+    const pais_usuario: Country = countries.find(c => c.iso === pais);
+    return pais_usuario.name;
   }
 
   page_size: number = 6;
