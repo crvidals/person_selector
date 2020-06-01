@@ -5,6 +5,8 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router, ActivatedRoute } from '@angular/router';
 import { countries } from 'typed-countries';
+import Swal from "sweetalert2";
+import { MensajesService } from '../services/mensajes.service';
 
 @Component({
   selector: 'app-editar-usuario',
@@ -13,14 +15,16 @@ import { countries } from 'typed-countries';
 })
 export class EditarUsuarioComponent implements OnInit {
 
+  per_array = {};
   paises = countries;
   edades = [];
   fEdit: FormGroup;
   usuario: User;
   per: any;
-  private itemsCollection: AngularFirestoreCollection<any>;
+  idPersona: string = this.actRoute.snapshot.params.id;
 
   constructor(
+    public msjServ: MensajesService,
     public cForm: FormBuilder, 
     private db: AngularFirestore, 
     private afAuth: AngularFireAuth,
@@ -35,26 +39,33 @@ export class EditarUsuarioComponent implements OnInit {
   }
 
   ngOnInit(){
-    let idPersona = this.actRoute.snapshot.params.id;
 
     this.fEdit = this.cForm.group({
-      img: ["", Validators.required],
       nombre: ["", Validators.required],
       fecha_nac: ["", Validators.required],
       celular: ["", Validators.required],
       reg_est: ["", Validators.required],
       comuna: ["", Validators.required],
+      edad: ["", Validators.required],
+      pais: ["", Validators.required],
+      img: ["", Validators.required],
       direccion: ["", Validators.required]
     });
 
-    this.per = this.db.doc<any>('personas/' + idPersona).valueChanges().subscribe((prsns)=>{
+    this.per = this.db.doc<any>('personas/' + this.idPersona).valueChanges().subscribe((prsns)=>{
+
+      this.per_array = {img: prsns.img, pais: prsns.pais, edad: prsns.edad};
+
       this.fEdit.setValue({
         nombre: prsns.nombre,
         fecha_nac: prsns.fecha_nac,
         celular: prsns.celular,
         reg_est: prsns.reg_est,
         comuna: prsns.comuna,
-        direccion: prsns.direccion
+        direccion: prsns.direccion,
+        img: this.per_array['img'],
+        pais: this.per_array['pais'],
+        edad: this.per_array['edad']
       });
     });
 
@@ -64,7 +75,18 @@ export class EditarUsuarioComponent implements OnInit {
   }
 
   editarPersona(){
-
+    let edad = (<HTMLSelectElement>document.getElementById('edad')).value;
+    let pais = (<HTMLSelectElement>document.getElementById('pais')).value;
+    let fields = this.fEdit.value;
+    fields.edad = edad;
+    fields.pais = pais;
+    this.db.doc('personas/' + this.idPersona).update(fields).then((res)=>{
+      this.msjServ.msjOk("Editado correctamente", "El usuario fue editado correctamente.");
+      window.location.reload();
+    })
+    .catch((err)=>{
+      this.msjServ.msjError("UPS!", "Hubo un problema con la edición. Intentelo nuevamente.");
+    });
   }
 
 }

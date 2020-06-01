@@ -1,3 +1,4 @@
+import { MensajesService } from './../services/mensajes.service';
 import { Component, OnInit } from '@angular/core';
 import { PersonsService } from '../services/persons.service';
 import { Persons } from '../models/persons/persons';
@@ -25,9 +26,14 @@ export class VerpersonasComponent implements OnInit {
   paises = countries;
   person: Array<Persons> = new Array<Persons>();
   modal: boolean = false;
-  personOk: boolean = false;
 
-  constructor(public cForm: FormBuilder, public PrsIny: PersonsService, private afAuth: AngularFireAuth, private router: Router, private db: AngularFirestore) {
+  constructor(
+    public cForm: FormBuilder, 
+    public msjServ: MensajesService,
+    public PrsIny: PersonsService, 
+    private afAuth: AngularFireAuth, 
+    private router: Router, 
+    private db: AngularFirestore) {
     this.afAuth.user.subscribe((usuario)=>{
       this.usuario = usuario;
       if (!this.usuario) {
@@ -84,14 +90,15 @@ export class VerpersonasComponent implements OnInit {
 
     this.db.collection('personas').add(fields)
     .then((user_ok)=>{
-      console.log(user_ok);
-      this.personOk = true;
       setTimeout(()=>{
+        this.msjServ.msjOk("Ingresado correctamente", "El usuario fue ingresado correctamente.");
         window.location.reload();
       }, 1000);
     })
     .catch((error)=>{
-      console.log(error);
+      setTimeout(()=>{
+        this.msjServ.msjError("UPS!", "Hubo un problema, intentelo nuevamente.");
+      }, 1000);
     });
   }
 

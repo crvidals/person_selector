@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { User } from 'firebase';
+import { MensajesService } from '../services/mensajes.service';
 
 @Component({
   selector: 'app-registrados',
@@ -15,7 +16,11 @@ export class RegistradosComponent implements OnInit {
   personas: Array<ColPersonas> = new Array<ColPersonas>();
   usuario: User;
 
-  constructor(private db: AngularFirestore, private afAuth: AngularFireAuth, private router: Router) {
+  constructor(
+    public msjServ: MensajesService,
+    private db: AngularFirestore, 
+    private afAuth: AngularFireAuth, 
+    private router: Router) {
     this.afAuth.user.subscribe((usuario)=>{
       this.usuario = usuario;
       if (!this.usuario) {
@@ -37,7 +42,13 @@ export class RegistradosComponent implements OnInit {
   }
 
   eliminarPersona(id: string){
-
+    let re_load: boolean = true;
+    this.db.doc('personas/' + id).delete().then((res)=>{
+      this.msjServ.msjDelete("Atención", "Está a punto de eliminar un registro. Este proceso es irreversible.", re_load);
+    })
+    .catch((err)=>{
+      this.msjServ.msjError("UPS!", "Ocurrió un problema. Intentelo nuevamente.");
+    });
   }
 
 }

@@ -43,7 +43,7 @@
                     <div class="modal-body">
         
                         <div class="container-fluid">
-                            <div class="row" *ngIf="!personOk">
+                            <div class="row">
                                 <div class="col-md-3">
                                     <img [src]="person['picture']['large']" class="img-fluid w-100">
                                     <div class="form-group row mt-3">
@@ -120,17 +120,11 @@
         
                                 </div>
                             </div>
-                            <div class="row" *ngIf="personOk">
-                                <div class="col-md-12">
-                                    <h1 class="text-center">Persona agregada correctamente.</h1>
-                                </div>
-                                
-                            </div>
                         </div>
         
                     </div>
         
-                    <div class="modal-footer" *ngIf="!personOk">
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <button type="button" class="btn btn-primary" (click)="guardarPersona()">Guardar Usuario</button>
                     </div>

@@ -21,6 +21,7 @@ import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { RegistradosComponent } from './registrados/registrados.component';
 import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.component'
+import { MensajesService } from './services/mensajes.service';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { EditarUsuarioComponent } from './editar-usuario/editar-usuario.componen
     AngularFireModule.initializeApp(environment.firebase)
   ],
   providers: [
+    MensajesService,
     PersonsService,
     {
       provide: MatPaginatorIntl,
