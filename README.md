@@ -69,5 +69,5 @@ Todo el desarrollo de este proyecto fue realizado en Ubuntu 18.04.4 LTS.
 ```
 
 # URLs
--   https://github.com/crvidals/person_selector
+-   https://github.com/crvidals?tab=repositories
 -   https://verpersonas.herokuapp.com
