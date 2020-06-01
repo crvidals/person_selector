@@ -16,7 +16,6 @@ import { CustomMatPaginatorIntl } from './paginator-es';
 import { LoadingComponent } from './loading/loading.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { AboutComponent } from './about/about.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { RegistradosComponent } from './registrados/registrados.component';
@@ -33,7 +32,6 @@ import { MensajesService } from './services/mensajes.service';
     LoadingComponent,
     LoginComponent,
     RegisterComponent,
-    AboutComponent,
     RegistradosComponent,
     EditarUsuarioComponent
   ],

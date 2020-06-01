@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.pass_w = this.f_login.value.password;
       this.afAuth.signInWithEmailAndPassword(this.e_mail, this.pass_w)
       .then((usuario)=>{
-        this.router.navigateByUrl('/persons');
+        this.router.navigateByUrl('/persons/agregarpersona');
       })
       .catch((error)=>{
         this.datosOk = false;

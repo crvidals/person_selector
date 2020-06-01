@@ -4,7 +4,7 @@ import { PersonsService } from '../services/persons.service';
 import { Persons } from '../models/persons/persons';
 import { PageEvent } from '@angular/material/paginator';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
+import { Router, Event } from '@angular/router';
 import { User } from 'firebase';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { countries, Country } from "typed-countries";
@@ -34,13 +34,16 @@ export class VerpersonasComponent implements OnInit {
     private afAuth: AngularFireAuth, 
     private router: Router, 
     private db: AngularFirestore) {
-    this.afAuth.user.subscribe((usuario)=>{
+    
+      this.afAuth.user.subscribe((usuario)=>{
       this.usuario = usuario;
       if (!this.usuario) {
         this.router.navigateByUrl('/login');
       }
+
     });
-  }                                                                                                                                                                              
+  } 
+  
   ngOnInit(){
     this.PrsIny.readPersons().subscribe((artsDesdeApi)=>{
       this.allPersons = artsDesdeApi['results'];
@@ -77,10 +80,6 @@ export class VerpersonasComponent implements OnInit {
     });
   }
 
-  cerrarModal(){
-    this.modal = false;
-  }
-
   guardarPersona(){
     let edad = (<HTMLSelectElement>document.getElementById('edad')).value;
     let pais = (<HTMLSelectElement>document.getElementById('pais')).value;
@@ -90,15 +89,14 @@ export class VerpersonasComponent implements OnInit {
 
     this.db.collection('personas').add(fields)
     .then((user_ok)=>{
-      setTimeout(()=>{
-        this.msjServ.msjOk("Ingresado correctamente", "El usuario fue ingresado correctamente.");
+      console.log("aers");
+      this.msjServ.msjOk("Ingresado correctamente", "El usuario fue ingresado correctamente.");
+      setTimeout(()=>{  
         window.location.reload();
       }, 1000);
     })
     .catch((error)=>{
-      setTimeout(()=>{
-        this.msjServ.msjError("UPS!", "Hubo un problema, intentelo nuevamente.");
-      }, 1000);
+      this.msjServ.msjError("UPS!", "Hubo un problema, intentelo nuevamente.");
     });
   }
 

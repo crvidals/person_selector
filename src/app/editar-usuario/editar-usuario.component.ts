@@ -82,7 +82,9 @@ export class EditarUsuarioComponent implements OnInit {
     fields.pais = pais;
     this.db.doc('personas/' + this.idPersona).update(fields).then((res)=>{
       this.msjServ.msjOk("Editado correctamente", "El usuario fue editado correctamente.");
-      window.location.reload();
+      setTimeout(()=>{  
+        window.location.reload();
+      }, 1000);
     })
     .catch((err)=>{
       this.msjServ.msjError("UPS!", "Hubo un problema con la edición. Intentelo nuevamente.");

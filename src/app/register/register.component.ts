@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
       console.log("pass_w" + this.pass_w);
       this.afAuth.createUserWithEmailAndPassword(this.e_mail, this.pass_w)
       .then((usuario)=>{
-        this.router.navigateByUrl('/persons');
+        this.router.navigateByUrl('/persons/agregarpersona');
       })
       .catch((error)=>{
         console.log("Error = " + error.message);

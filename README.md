@@ -32,13 +32,6 @@ Editar redirecciona a otra página en donde es posible editar los datos del usua
 Se agrega un redireccionamiento en caso de ingresar a una url que no corresponda.
 Ejemplo: https://verpersonas.herokuapp.com/error redirecciona al index.
 
-También se agrega un loading que debe desaparecer cuando se carga el subscribe.
-
-Cada cuadro de la grid: 
--   Tiene un tooltip que indica al usuario que debe hacer.
--   Al hacer click en cualquier parte de un cuadro de la grid, se despliega una modal que
-    muestra los principales datos de la persona.
-
 # Listado de dependencias y frameworks utilizados
 -   Angular                             9.1.6
 -   jquery                              3.4.1
